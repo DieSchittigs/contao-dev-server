@@ -1,10 +1,10 @@
 {
-  "name": "contao-dev-server",
+  "name": "@dieschittigs/contao-dev-server",
   "version": "0.0.1",
   "description": "Local development server for Contao 4+",
   "main": "bin/contao-dev-server.js",
   "author": "Die Schittigs",
-  "license": "MIT",
+  "license": "ISC",
   "private": false,
   "dependencies": {
     "chalk": "^2.3.0",
@@ -13,8 +13,28 @@
     "http-server": "^0.11.1",
     "yargs": "^10.1.1"
   },
-  "repository": "github:DieSchittigs/contao-dev-server",
-	"bin": {
-		"contao-dev-server": "./bin/contao-dev-server.js"
-	}
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DieSchittigs/contao-dev-server.git"
+  },
+  "bin": {
+    "contao-dev-server": "./bin/contao-dev-server.js"
+  },
+  "bugs": {
+    "url": "https://github.com/DieSchittigs/contao-dev-server/issues"
+  },
+  "homepage": "https://github.com/DieSchittigs/contao-dev-server#readme",
+  "directories": {
+    "test": "test"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "contao",
+    "php",
+    "dev",
+    "webserver"
+  ]
 }
