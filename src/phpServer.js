@@ -15,12 +15,13 @@ function startPhpServer(host='127.0.0.1', port=9001, rootDir='./', router=null, 
     });
     
     serverProc.stderr.on('data', function (data) {
-      console.log(chalk.red('PHP', data.toString()));
+      console.log(chalk.yellow('PHP', data.toString()));
     });
     
     serverProc.on('exit', function (code) {
       console.log(chalk.yellow('PHP', 'child process exited with code ' + code.toString()));
     });
+    return 'http://' + host + ':' + port;
 }
 
 module.exports = startPhpServer;
