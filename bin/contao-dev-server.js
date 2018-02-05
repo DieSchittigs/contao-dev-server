@@ -9,7 +9,7 @@ const argv = require('yargs')
     .default('rootDir', './web')
     .default('phpWorkers', 5)
     .default('production', false)
-    .default('config', resolve(path.join(__dirname, '/../conf/php.ini')))
+    .default('config', null)
     .default('phpExec', 'php')
     .argv;
 const startHttpServer = require('../src/httpServer');

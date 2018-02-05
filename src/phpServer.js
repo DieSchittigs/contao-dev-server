@@ -5,10 +5,16 @@ const path = require('path');
 function startPhpServer(host='127.0.0.1', port=9001, rootDir='./', router=null, configFile=null, phpExec='php') {
     let args = []
     .concat(['-S', host.concat(':').concat(port)])
+    .concat(['-d', 'display_errors=off'])
+    .concat(['-d', 'open_basedir=/'])
+    .concat(['-d', 'upload_max_filesize=1G'])
+    .concat(['-d', 'post_max_size=1G'])
+    .concat(['-d', 'memory_limit=512M'])
+    .concat(['-d', 'error_log='.concat(path.join(rootDir, '../contao-dev-server-error.log'))])
     .concat(['-t', rootDir]);
     if(configFile) args = args.concat(['-c', configFile]);
     if(router) args.push(path.join(rootDir, router));
-
+    console.log(args);
     const serverProc = spawn(phpExec, args);
     
     serverProc.stdout.on('data', function (data) {
@@ -16,7 +22,7 @@ function startPhpServer(host='127.0.0.1', port=9001, rootDir='./', router=null, 
     });
     
     serverProc.stderr.on('data', function (data) {
-      console.log(chalk.red('PHP', data.toString()));
+      console.log(chalk.yellow('PHP', data.toString()));
     });
     
     serverProc.on('exit', function (code) {
