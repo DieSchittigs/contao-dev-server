@@ -14,7 +14,7 @@ function startPhpServer(host='127.0.0.1', port=9001, rootDir='./', router=null, 
     .concat(['-t', rootDir]);
     if(configFile) args = args.concat(['-c', configFile]);
     if(router) args.push(path.join(rootDir, router));
-    console.log(args);
+
     const serverProc = spawn(phpExec, args);
     
     serverProc.stdout.on('data', function (data) {

@@ -1,6 +1,6 @@
 {
   "name": "@dieschittigs/contao-dev-server",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Local development server for Contao 4+",
   "main": "bin/contao-dev-server.js",
   "author": "Die Schittigs",
