@@ -1,12 +1,13 @@
 const spawn = require('child_process').spawn;
 const chalk = require('chalk');
+const path = require('path');
 
 function startPhpServer(host='127.0.0.1', port=9001, rootDir='./', router=null, configFile=null, phpExec='php') {
     let args = []
     .concat(['-S', host.concat(':').concat(port)])
     .concat(['-t', rootDir]);
     if(configFile) args = args.concat(['-c', configFile]);
-    if(router) args.push(router);
+    if(router) args.push(path.join(rootDir, router));
 
     const serverProc = spawn(phpExec, args);
     
@@ -15,7 +16,7 @@ function startPhpServer(host='127.0.0.1', port=9001, rootDir='./', router=null, 
     });
     
     serverProc.stderr.on('data', function (data) {
-      console.log(chalk.yellow('PHP', data.toString()));
+      console.log(chalk.red('PHP', data.toString()));
     });
     
     serverProc.on('exit', function (code) {
