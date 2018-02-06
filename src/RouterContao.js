@@ -49,8 +49,8 @@ class RouterContao{
             });
         }
     
-        // The installer fails in dev-mode
-        if(req.url.indexOf('contao/install') > -1){
+        // The backend fails in dev-mode
+        if(req.url.indexOf('contao') > -1){
             return this.proxy.web(req, res, {
                 target: this.contaoProdProxy,
                 changeOrigin: false
