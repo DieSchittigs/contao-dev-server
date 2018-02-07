@@ -9,7 +9,7 @@ function startHttpServer(host='127.0.0.1', port=9000, rootDir='./', routerFunc =
     }); 
      
     server.listen(port, host, () => {
-        console.log(chalk.green('Contao Dev Server available at'));
+        console.log(chalk.green('Listening at'));
         console.log(chalk.green('  http://' + host + ':' + port));
         console.log(chalk.gray('Hit CTRL-C to stop the server'));
     });

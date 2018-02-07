@@ -28,6 +28,7 @@ function startPhpServer(host='127.0.0.1', port=9001, rootDir='./', router=null, 
     serverProc.on('exit', function (code) {
       console.log(chalk.yellow('PHP', 'child process exited with code ' + code.toString()));
     });
+    console.log(chalk.blue('PHP instance spawned at', host + ':' + port));
     return 'http://' + host + ':' + port;
 }
 

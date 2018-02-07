@@ -2,6 +2,7 @@
 
 resolve = require('path').resolve;
 const path = require('path');
+const chalk = require('chalk');
 const argv = require('yargs')
     .usage('Usage: $0 [options]')
     .default('host', '127.0.0.1')
@@ -15,6 +16,9 @@ const argv = require('yargs')
 const startHttpServer = require('../src/httpServer');
 const startPhpServer = require('../src/phpServer');
 const RouterContao = require('../src/RouterContao');
+const pjson = require(path.join(__dirname, '../package.json'));
+
+console.log('\n', chalk.bgMagenta(' Welcome to Contao Dev Server v' + pjson.version + ' '), '\n');
 
 const rootDir = resolve(argv.rootDir);
 
