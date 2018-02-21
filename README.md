@@ -41,6 +41,7 @@ Launch by entering `contao-dev-server`.
     --production  false (if true: use app.php)  
     --config      Add your own php.ini, if needed  
     --phpExec     "php"
+    --phpWorkers  How many PHP workers should be spawned?, default: 5
 
 ## Licence
 
