@@ -45,7 +45,7 @@ const contaoProdServer = startPhpServer(
     '127.0.0.1',
     argv.port+2,
     rootDir,
-    'app.php',
+    'router_prod.php',
     argv.config,
     argv.phpExec
 );
@@ -56,7 +56,7 @@ for(let i = 3; i <= argv.phpWorkers+2; i++){
         '127.0.0.1',
         argv.port+i,
         rootDir,
-        argv.production ? 'app.php': 'app_dev.php',
+        argv.production ? 'router_prod.php': 'router_dev.php',
         argv.config,
         argv.phpExec
     ));

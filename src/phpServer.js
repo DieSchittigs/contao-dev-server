@@ -13,8 +13,8 @@ function startPhpServer(host='127.0.0.1', port=9001, rootDir='./', router=null, 
     .concat(['-d', 'error_log='.concat(path.join(rootDir, '../contao-dev-server-error.log'))])
     .concat(['-t', rootDir]);
     if(configFile) args = args.concat(['-c', configFile]);
-    if(router) args.push(path.join(rootDir, router));
-
+    if(router) args.push(path.join(__dirname, router));
+    
     const serverProc = spawn(phpExec, args);
     
     serverProc.stdout.on('data', function (data) {
