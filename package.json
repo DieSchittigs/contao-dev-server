@@ -1,15 +1,15 @@
 {
   "name": "@dieschittigs/contao-dev-server",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Local development server for Contao 4+",
   "main": "bin/contao-dev-server.js",
   "author": "Die Schittigs",
   "license": "ISC",
   "private": false,
   "dependencies": {
-    "chalk": "^2.3.2",
+    "chalk": "^2.4.1",
     "file-exists": "^5.0.1",
-    "http-proxy": "^1.16.2",
+    "http-proxy": "^1.17.0",
     "http-server": "^0.11.1",
     "yargs": "^10.1.1"
   },
