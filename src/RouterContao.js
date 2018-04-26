@@ -42,7 +42,7 @@ class RouterContao{
         console.log(chalk.blue(req.method, req.url));
     
         // This is a PHP-script - no routing needed
-        if(pathname.endsWith('.php') || hasIndexPhp){
+        if(pathname.endsWith('.php') || pathname.indexOf('.php/') >= 0 || hasIndexPhp){
             return this.proxy.web(req, res, {
                 target: this.phpProxyUrl,
                 changeOrigin: false
