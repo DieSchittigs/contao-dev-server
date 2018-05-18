@@ -58,7 +58,7 @@ class RouterContao{
         }
     
         // Let Contao do its thing
-        if(this.poolIndex <= this.contaoProxyPool.length) this.poolIndex = 0;
+        if(this.poolIndex >= this.contaoProxyPool.length) this.poolIndex = 0;
         this.proxy.web(req, res, {
             target: this.contaoProxyPool[this.poolIndex],
             changeOrigin: false
