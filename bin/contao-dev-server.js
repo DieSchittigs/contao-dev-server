@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+process.stdin.resume();
+
 const path = require('path');
 const chalk = require('chalk');
 const startHttpServer = require('../src/httpServer');
@@ -73,7 +75,11 @@ for(let i = 3; i <= argv.phpWorkers+2; i++){
     ));
 }
 
-const contaoRouter = new RouterContao(rootDir, phpServer, contaoProdServer, contaoServers);
+const contaoRouter = new RouterContao(
+    rootDir,
+    phpServer.url,
+    contaoProdServer.url,
+    contaoServers.map(server => { return server.url }));
 
 startHttpServer(
     argv.host,
@@ -94,3 +100,20 @@ startHttpServer(
 .catch(err=>{
     console.error(err);
 });
+
+function exitHandler(err) {
+    if(err && err.stack)
+        console.error('\n', chalk.red(err.stack), '\n');
+    phpServer.proc.kill();
+    contaoProdServer.proc.kill();
+    contaoServers.forEach(server => {
+        server.proc.kill();
+    });
+    process.exit();
+}
+
+process.on('exit', exitHandler);
+process.on('SIGINT', exitHandler);
+process.on('SIGUSR1', exitHandler);
+process.on('SIGUSR2', exitHandler);
+process.on('uncaughtException', exitHandler);

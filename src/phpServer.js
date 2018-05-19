@@ -17,10 +17,6 @@ function startPhpServer(host='127.0.0.1', port=9001, rootDir='./', router=null, 
     
     const serverProc = spawn(phpExec, args);
     
-    serverProc.stdout.on('data', function (data) {
-      console.log(chalk.green('PHP', data.toString()));
-    });
-    
     serverProc.stderr.on('data', function (data) {
       console.log(chalk.yellow('PHP', data.toString()));
     });
@@ -29,7 +25,7 @@ function startPhpServer(host='127.0.0.1', port=9001, rootDir='./', router=null, 
       console.log(chalk.yellow('PHP', 'child process exited with code ' + code.toString()));
     });
     console.log(chalk.blue('PHP instance spawned at', host + ':' + port));
-    return 'http://' + host + ':' + port;
+    return { proc: serverProc, url: 'http://' + host + ':' + port };
 }
 
 module.exports = startPhpServer;
