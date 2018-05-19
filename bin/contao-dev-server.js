@@ -2,31 +2,42 @@
 
 const path = require('path');
 const chalk = require('chalk');
-const argv = require('yargs')
-    .usage('Usage: $0 [options]')
-    .default('host', '127.0.0.1')
-    .default('port', 9000)
-    .default('rootDir', './web')
-    .default('phpWorkers', 5)
-    .default('production', false)
-    .default('config', null)
-    .default('phpExec', 'php')
-    .argv;
 const startHttpServer = require('../src/httpServer');
 const startPhpServer = require('../src/phpServer');
 const RouterContao = require('../src/RouterContao');
 const pjson = require(path.join(__dirname, '../package.json'));
 const homedir = require('os').homedir();
-var fs = require('fs');
+const fs = require('fs');
+
+const defaultArgs = {
+    host: '127.0.0.1',
+    port: 9000,
+    rootDir: './web',
+    phpWorkers: 5,
+    production: false,
+    config: null,
+    phpExec: 'php'
+};
 
 if(fs.existsSync(path.join(homedir, '.config/contao-dev-server.json'))){
     Object.assign(
-        argv,
+        defaultArgs,
         require(
             path.join(homedir, '.config/contao-dev-server.json')
         )
     );
 }
+
+let argv = require('yargs')
+    .usage('Usage: $0 [options]')
+    .default('host', defaultArgs.host)
+    .default('port', defaultArgs.port)
+    .default('rootDir', defaultArgs.rootDir)
+    .default('phpWorkers', defaultArgs.phpWorkers)
+    .default('production', defaultArgs.production)
+    .default('config', defaultArgs.config)
+    .default('phpExec', defaultArgs.php)
+    .argv;
 
 console.log('\n', chalk.bgMagenta(' Welcome to Contao Dev Server v' + pjson.version + ' '), '\n');
 
