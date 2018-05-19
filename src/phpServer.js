@@ -10,7 +10,7 @@ function startPhpServer(host='127.0.0.1', port=9001, rootDir='./', router=null, 
     .concat(['-d', 'upload_max_filesize=1G'])
     .concat(['-d', 'post_max_size=1G'])
     .concat(['-d', 'memory_limit=512M'])
-    .concat(['-d', 'error_log='.concat(path.join(rootDir, '../contao-dev-server-error.log'))])
+    .concat(['-d', 'error_log='.concat(path.resolve('contao-dev-server-error.log'))])
     .concat(['-t', rootDir]);
     if(configFile) args = args.concat(['-c', configFile]);
     if(router) args.push(path.join(__dirname, router));
