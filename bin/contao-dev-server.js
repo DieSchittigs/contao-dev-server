@@ -71,13 +71,13 @@ startHttpServer(
     (req, res) => contaoRouter.handle(req, res)
 )
 .then(({ host, port, rootDir })=>{
-    console.log(chalk.bgGreen('\n\n', ' Contao Dev Server launched successfully', '\n'));
-    console.log(chalk.white('  http://' + host + ':' + port));
-    console.log(chalk.white('  http://' + host + ':' + port + '/contao'));
-    if(!fs.existsSync(path.join(rootDir, '../app/config/paramters.yml')))
-        console.log(chalk.white('  http://' + host + ':' + port + '/contao/install'));
+    console.log('\n\n', chalk.bgMagenta(' Contao Dev Server launched successfully', '\n'));
+    if(!fs.existsSync(path.join(rootDir, '../app/config/parameters.yml')))
+        console.log(chalk.white(' * Install:\thttp://' + host + ':' + port + '/contao/install'));
+    console.log(chalk.white(' * Frontend:\thttp://' + host + ':' + port));
+    console.log(chalk.white(' * Backend:\thttp://' + host + ':' + port + '/contao'));
     if(fs.existsSync(path.join(rootDir, 'contao-manager.phar.php')))
-        console.log(chalk.white('  http://' + host + ':' + port + '/contao-manager.phar.php'));
+        console.log(chalk.white(' * Manager:\thttp://' + host + ':' + port + '/contao-manager.phar.php'));
     console.log('\n', chalk.gray(' Hit CTRL-C to stop the server'), '\n');
 })
 .catch(err=>{
