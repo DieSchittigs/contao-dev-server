@@ -1,3 +1,5 @@
+![](https://i.imgur.com/ad5YzT0.png)
+
 # Contao Dev Server
 
 ## About
