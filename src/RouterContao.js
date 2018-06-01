@@ -21,7 +21,7 @@ class RouterContao{
         this.proxy = httpProxy.createProxyServer({});
     }
     handle(req, res){
-        const pathname = req.url.split('?')[0];
+        const pathname = decodeURIComponent(req.url.split('?')[0]);
 
         // Serve static files
         if(req.method == 'GET' && !pathname.endsWith('.php') && isFile(path.join(this.rootDir, pathname))){
