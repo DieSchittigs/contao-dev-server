@@ -18,7 +18,9 @@ class RouterContao{
         this.contaoProdProxy = contaoProdProxy;
         this.contaoProxyPool = contaoProxyPool;
         this.poolIndex = 0;
-        this.proxy = httpProxy.createProxyServer({});
+        this.proxy = httpProxy.createProxyServer({
+            xfwd: true
+        });
     }
     handle(req, res){
         const pathname = decodeURIComponent(req.url.split('?')[0]);
