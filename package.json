@@ -1,40 +1,40 @@
 {
-  "name": "@dieschittigs/contao-dev-server",
-  "version": "0.1.9",
-  "description": "Local development server for Contao 4+",
-  "main": "bin/contao-dev-server.js",
-  "author": "Die Schittigs",
-  "license": "ISC",
-  "private": false,
-  "dependencies": {
-    "chalk": "^2.4.1",
-    "file-exists": "^5.0.1",
-    "http-proxy": "^1.17.0",
-    "http-server": "^0.11.1",
-    "yargs": "^11.0.0"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/DieSchittigs/contao-dev-server.git"
-  },
-  "bin": {
-    "contao-dev-server": "./bin/contao-dev-server.js"
-  },
-  "bugs": {
-    "url": "https://github.com/DieSchittigs/contao-dev-server/issues"
-  },
-  "homepage": "https://github.com/DieSchittigs/contao-dev-server#readme",
-  "directories": {
-    "test": "test"
-  },
-  "devDependencies": {},
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [
-    "contao",
-    "php",
-    "dev",
-    "webserver"
-  ]
+    "name": "@dieschittigs/contao-dev-server",
+    "version": "0.2.0",
+    "description": "Local development server for Contao 4+",
+    "main": "bin/contao-dev-server.js",
+    "author": "Die Schittigs",
+    "license": "ISC",
+    "private": false,
+    "dependencies": {
+        "chalk": "^2.4.1",
+        "file-exists": "^5.0.1",
+        "http-proxy": "^1.17.0",
+        "http-server": "^0.11.1",
+        "yargs": "^11.0.0"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/DieSchittigs/contao-dev-server.git"
+    },
+    "bin": {
+        "contao-dev-server": "./bin/contao-dev-server.js"
+    },
+    "bugs": {
+        "url": "https://github.com/DieSchittigs/contao-dev-server/issues"
+    },
+    "homepage": "https://github.com/DieSchittigs/contao-dev-server#readme",
+    "directories": {
+        "test": "test"
+    },
+    "devDependencies": {},
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [
+        "contao",
+        "php",
+        "dev",
+        "webserver"
+    ]
 }
