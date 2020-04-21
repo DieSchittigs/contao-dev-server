@@ -2,52 +2,53 @@
 
 process.stdin.resume();
 
-const path = require('path');
-const chalk = require('chalk');
-const startHttpServer = require('../src/httpServer');
-const startPhpServer = require('../src/phpServer');
-const RouterContao = require('../src/RouterContao');
-const pjson = require(path.join(__dirname, '../package.json'));
-const homedir = require('os').homedir();
-const fs = require('fs');
+const path = require("path");
+const chalk = require("chalk");
+const startHttpServer = require("../src/httpServer");
+const startPhpServer = require("../src/phpServer");
+const RouterContao = require("../src/RouterContao");
+const pjson = require(path.join(__dirname, "../package.json"));
+const homedir = require("os").homedir();
+const fs = require("fs");
 
 const defaultArgs = {
-    host: '127.0.0.1',
+    host: "127.0.0.1",
     port: 9000,
-    rootDir: './web',
+    rootDir: "./web",
     phpWorkers: 5,
     production: false,
     config: null,
-    phpExec: 'php'
+    phpExec: "php",
 };
 
-if(fs.existsSync(path.join(homedir, '.config/contao-dev-server.json'))){
+if (fs.existsSync(path.join(homedir, ".config/contao-dev-server.json"))) {
     Object.assign(
         defaultArgs,
-        require(
-            path.join(homedir, '.config/contao-dev-server.json')
-        )
+        require(path.join(homedir, ".config/contao-dev-server.json"))
     );
 }
 
-let argv = require('yargs')
-    .usage('Usage: $0 [options]')
-    .default('host', defaultArgs.host)
-    .default('port', defaultArgs.port)
-    .default('rootDir', defaultArgs.rootDir)
-    .default('phpWorkers', defaultArgs.phpWorkers)
-    .default('production', defaultArgs.production)
-    .default('config', defaultArgs.config)
-    .default('phpExec', defaultArgs.php)
-    .argv;
+let argv = require("yargs")
+    .usage("Usage: $0 [options]")
+    .default("host", defaultArgs.host)
+    .default("port", defaultArgs.port)
+    .default("rootDir", defaultArgs.rootDir)
+    .default("phpWorkers", defaultArgs.phpWorkers)
+    .default("production", defaultArgs.production)
+    .default("config", defaultArgs.config)
+    .default("phpExec", defaultArgs.php).argv;
 
-console.log('\n', chalk.bgMagenta(' Welcome to Contao Dev Server v' + pjson.version + ' '), '\n');
+console.log(
+    "\n",
+    chalk.bgMagenta(" Welcome to Contao Dev Server v" + pjson.version + " "),
+    "\n"
+);
 
 const rootDir = path.resolve(argv.rootDir);
 
 const phpServer = startPhpServer(
-    '127.0.0.1',
-    argv.port+1,
+    "127.0.0.1",
+    argv.port + 1,
     rootDir,
     null,
     argv.config,
@@ -55,65 +56,87 @@ const phpServer = startPhpServer(
 );
 
 const contaoProdServer = startPhpServer(
-    '127.0.0.1',
-    argv.port+2,
+    "127.0.0.1",
+    argv.port + 2,
     rootDir,
-    'router_prod.php',
+    "router_prod.php",
     argv.config,
     argv.phpExec
 );
 
 var contaoServers = [];
-for(let i = 3; i <= argv.phpWorkers+2; i++){
-    contaoServers.push(startPhpServer(
-        '127.0.0.1',
-        argv.port+i,
-        rootDir,
-        argv.production ? 'router_prod.php': 'router_dev.php',
-        argv.config,
-        argv.phpExec
-    ));
+for (let i = 3; i <= argv.phpWorkers + 2; i++) {
+    contaoServers.push(
+        startPhpServer(
+            "127.0.0.1",
+            argv.port + i,
+            rootDir,
+            argv.production ? "router_prod.php" : "router_dev.php",
+            argv.config,
+            argv.phpExec
+        )
+    );
 }
 
 const contaoRouter = new RouterContao(
     rootDir,
     phpServer.url,
     contaoProdServer.url,
-    contaoServers.map(server => { return server.url }));
+    contaoServers.map((server) => {
+        return server.url;
+    })
+);
 
-startHttpServer(
-    argv.host,
-    argv.port,
-    rootDir,
-    (req, res) => contaoRouter.handle(req, res)
+startHttpServer(argv.host, argv.port, rootDir, (req, res) =>
+    contaoRouter.handle(req, res)
 )
-.then(({ host, port, rootDir })=>{
-    console.log('\n\n', chalk.bgMagenta(' Contao Dev Server launched successfully', '\n'));
-    if(!fs.existsSync(path.join(rootDir, '../app/config/parameters.yml')))
-        console.log(chalk.white(' * Install:\thttp://' + host + ':' + port + '/contao/install'));
-    console.log(chalk.white(' * Frontend:\thttp://' + host + ':' + port));
-    console.log(chalk.white(' * Backend:\thttp://' + host + ':' + port + '/contao'));
-    if(fs.existsSync(path.join(rootDir, 'contao-manager.phar.php')))
-        console.log(chalk.white(' * Manager:\thttp://' + host + ':' + port + '/contao-manager.phar.php'));
-    console.log('\n', chalk.gray(' Hit CTRL-C to stop the server'), '\n');
-})
-.catch(err=>{
-    console.error(err);
-});
+    .then(({ host, port, rootDir }) => {
+        console.log(
+            "\n\n",
+            chalk.bgMagenta(" Contao Dev Server launched successfully", "\n")
+        );
+        if (!fs.existsSync(path.join(rootDir, "../app/config/parameters.yml")))
+            console.log(
+                chalk.white(
+                    " * Install:\thttp://" +
+                        host +
+                        ":" +
+                        port +
+                        "/contao/install"
+                )
+            );
+        console.log(chalk.white(" * Frontend:\thttp://" + host + ":" + port));
+        console.log(
+            chalk.white(" * Backend:\thttp://" + host + ":" + port + "/contao")
+        );
+        if (fs.existsSync(path.join(rootDir, "contao-manager.phar.php")))
+            console.log(
+                chalk.white(
+                    " * Manager:\thttp://" +
+                        host +
+                        ":" +
+                        port +
+                        "/contao-manager.phar.php"
+                )
+            );
+        console.log("\n", chalk.gray(" Hit CTRL-C to stop the server"), "\n");
+    })
+    .catch((err) => {
+        console.error(err);
+    });
 
 function exitHandler(err) {
-    if(err && err.stack)
-        console.error('\n', chalk.red(err.stack), '\n');
+    if (err && err.stack) console.error("\n", chalk.red(err.stack), "\n");
     phpServer.proc.kill();
     contaoProdServer.proc.kill();
-    contaoServers.forEach(server => {
+    contaoServers.forEach((server) => {
         server.proc.kill();
     });
     process.exit();
 }
 
-process.on('exit', exitHandler);
-process.on('SIGINT', exitHandler);
-process.on('SIGUSR1', exitHandler);
-process.on('SIGUSR2', exitHandler);
-process.on('uncaughtException', exitHandler);
+process.on("exit", exitHandler);
+process.on("SIGINT", exitHandler);
+process.on("SIGUSR1", exitHandler);
+process.on("SIGUSR2", exitHandler);
+process.on("uncaughtException", exitHandler);
