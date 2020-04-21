@@ -44,6 +44,36 @@ console.log(
     "\n"
 );
 
+const devDotEnv = "APP_ENV=dev\n";
+let createdDotEnv = false;
+
+if (fs.existsSync("./composer.json")) {
+    const cjson = require(path.resolve("./composer.json"));
+    if (
+        cjson.require["contao/manager-bundle"] &&
+        cjson.require["contao/manager-bundle"].replace(/[^0-9]+/g, "") >= 48
+    ) {
+        if (!fs.existsSync(".env")) {
+            console.log(
+                chalk.yellow(
+                    " Contao 4.8+ detected. Adding .env file to enable debug mode. "
+                ),
+                "\n"
+            );
+            fs.writeFileSync(".env", devDotEnv);
+            createdDotEnv = true;
+        } else {
+            console.log(
+                chalk.yellow(
+                    " Contao 4.8+ detected. Please consider adding APP_ENV=dev to your .env file "
+                ),
+                "\n * https://docs.contao.org/manual/en/system/debug-mode/#contao-4-8-and-up",
+                "\n"
+            );
+        }
+    }
+}
+
 const rootDir = path.resolve(argv.rootDir);
 
 const phpServer = startPhpServer(
@@ -132,6 +162,11 @@ function exitHandler(err) {
     contaoServers.forEach((server) => {
         server.proc.kill();
     });
+    if (createdDotEnv && fs.readFileSync(".env").toString() === devDotEnv) {
+        fs.unlinkSync(".env");
+        createdDotEnv = false;
+        console.log("\n", chalk.yellow(" Removed temporary .env file "), "\n");
+    }
     process.exit();
 }
 
