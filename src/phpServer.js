@@ -30,7 +30,7 @@ function startPhpServer(
     serverProc.stdout.on("data", function(data) {
         const line = data.toString().trim();
         if (!line) return;
-        console.log(chalk.blueBright("PHP", line));
+        console.log(chalk.blue("PHP", line));
     });
 
     serverProc.stderr.on("data", function(data) {
