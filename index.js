@@ -4,10 +4,10 @@ process.stdin.resume();
 
 const path = require("path");
 const chalk = require("chalk");
-const startHttpServer = require("../src/httpServer");
-const startPhpServer = require("../src/phpServer");
-const RouterContao = require("../src/RouterContao");
-const pjson = require(path.join(__dirname, "../package.json"));
+const startHttpServer = require("./src/httpServer");
+const startPhpServer = require("./src/phpServer");
+const RouterContao = require("./src/RouterContao");
+const pjson = require(path.join(__dirname, "./package.json"));
 const homedir = require("os").homedir();
 const fs = require("fs");
 
@@ -44,7 +44,7 @@ console.log(
     "\n"
 );
 
-const devDotEnv = `APP_ENV=${argv.production ? "prod" : "dev"}\n`;
+const dotEnv = `APP_ENV=${argv.production ? "prod" : "dev"}\n`;
 let createdDotEnv = false;
 
 if (fs.existsSync("./composer.json")) {
@@ -60,7 +60,7 @@ if (fs.existsSync("./composer.json")) {
                 ),
                 "\n"
             );
-            fs.writeFileSync(".env", devDotEnv);
+            fs.writeFileSync(".env", dotEnv);
             createdDotEnv = true;
         } else {
             console.log(
@@ -85,17 +85,8 @@ const phpServer = startPhpServer(
     argv.phpExec
 );
 
-const contaoProdServer = startPhpServer(
-    "127.0.0.1",
-    argv.port + 2,
-    rootDir,
-    "router_prod.php",
-    argv.config,
-    argv.phpExec
-);
-
 var contaoServers = [];
-for (let i = 3; i <= argv.phpWorkers + 2; i++) {
+for (let i = 2; i < argv.phpWorkers; i++) {
     contaoServers.push(
         startPhpServer(
             "127.0.0.1",
@@ -111,7 +102,6 @@ for (let i = 3; i <= argv.phpWorkers + 2; i++) {
 const contaoRouter = new RouterContao(
     rootDir,
     phpServer.url,
-    contaoProdServer.url,
     contaoServers.map(server => {
         return server.url;
     })
@@ -162,7 +152,7 @@ function exitHandler(err) {
     contaoServers.forEach(server => {
         server.proc.kill();
     });
-    if (createdDotEnv && fs.readFileSync(".env").toString() === devDotEnv) {
+    if (createdDotEnv && fs.readFileSync(".env").toString() === dotEnv) {
         fs.unlinkSync(".env");
         createdDotEnv = false;
         console.log("\n", chalk.yellow(" Removed temporary .env file "), "\n");

@@ -1,5 +1,4 @@
 const HTTPServer = require("http-server");
-const chalk = require("chalk");
 
 function startHttpServer(
     host = "127.0.0.1",
@@ -13,7 +12,7 @@ function startHttpServer(
         const server = HTTPServer.createServer({
             root: rootDir,
             cache: true,
-            before: [routerFunc],
+            before: [routerFunc]
         });
         try {
             server.listen(port, host, () => {

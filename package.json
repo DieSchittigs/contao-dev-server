@@ -18,7 +18,7 @@
         "url": "git+https://github.com/DieSchittigs/contao-dev-server.git"
     },
     "bin": {
-        "contao-dev-server": "./bin/contao-dev-server.js"
+        "contao-dev-server": "./index.js"
     },
     "bugs": {
         "url": "https://github.com/DieSchittigs/contao-dev-server/issues"

@@ -12,14 +12,14 @@ function startPhpServer(
 ) {
     let args = []
         .concat(["-S", host.concat(":").concat(port)])
-        .concat(["-d", "display_errors=off"])
+        .concat(["-d", "display_errors=on"])
         .concat(["-d", "open_basedir=/"])
         .concat(["-d", "upload_max_filesize=1G"])
         .concat(["-d", "post_max_size=1G"])
         .concat(["-d", "memory_limit=512M"])
         .concat([
             "-d",
-            "error_log=".concat(path.resolve("contao-dev-server-error.log")),
+            "error_log=".concat(path.resolve("contao-dev-server-error.log"))
         ])
         .concat(["-t", rootDir]);
     if (configFile) args = args.concat(["-c", configFile]);
@@ -27,11 +27,11 @@ function startPhpServer(
 
     const serverProc = spawn(phpExec, args);
 
-    serverProc.stderr.on("data", function (data) {
+    serverProc.stderr.on("data", function(data) {
         console.log(chalk.yellow("PHP", data.toString()));
     });
 
-    serverProc.on("exit", function (code) {
+    serverProc.on("exit", function(code) {
         console.log(
             chalk.yellow(
                 "PHP",

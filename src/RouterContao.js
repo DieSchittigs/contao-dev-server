@@ -11,14 +11,13 @@ function isFile(filePath) {
     return isFile;
 }
 class RouterContao {
-    constructor(rootDir, phpProxyUrl, contaoProdProxy, contaoProxyPool) {
+    constructor(rootDir, phpProxyUrl, contaoProxyPool) {
         this.rootDir = rootDir;
         this.phpProxyUrl = phpProxyUrl;
-        this.contaoProdProxy = contaoProdProxy;
         this.contaoProxyPool = contaoProxyPool;
         this.poolIndex = 0;
         this.proxy = httpProxy.createProxyServer({
-            xfwd: true,
+            xfwd: true
         });
     }
     handle(req, res) {
@@ -55,15 +54,7 @@ class RouterContao {
         ) {
             return this.proxy.web(req, res, {
                 target: this.phpProxyUrl,
-                changeOrigin: false,
-            });
-        }
-
-        // The backend fails in dev-mode
-        if (req.url.indexOf("contao") > -1) {
-            return this.proxy.web(req, res, {
-                target: this.contaoProdProxy,
-                changeOrigin: false,
+                changeOrigin: false
             });
         }
 
@@ -71,7 +62,7 @@ class RouterContao {
         if (this.poolIndex >= this.contaoProxyPool.length) this.poolIndex = 0;
         this.proxy.web(req, res, {
             target: this.contaoProxyPool[this.poolIndex],
-            changeOrigin: false,
+            changeOrigin: false
         });
         this.poolIndex++;
         return;
