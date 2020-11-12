@@ -18,7 +18,7 @@ const defaultArgs = {
     phpWorkers: 5,
     production: false,
     config: null,
-    phpExec: "php",
+    phpExec: "php"
 };
 
 if (fs.existsSync(path.join(homedir, ".config/contao-dev-server.json"))) {
@@ -44,7 +44,7 @@ console.log(
     "\n"
 );
 
-const devDotEnv = "APP_ENV=dev\n";
+const devDotEnv = `APP_ENV=${argv.production ? "prod" : "dev"}\n`;
 let createdDotEnv = false;
 
 if (fs.existsSync("./composer.json")) {
@@ -112,7 +112,7 @@ const contaoRouter = new RouterContao(
     rootDir,
     phpServer.url,
     contaoProdServer.url,
-    contaoServers.map((server) => {
+    contaoServers.map(server => {
         return server.url;
     })
 );
@@ -151,7 +151,7 @@ startHttpServer(argv.host, argv.port, rootDir, (req, res) =>
             );
         console.log("\n", chalk.gray(" Hit CTRL-C to stop the server"), "\n");
     })
-    .catch((err) => {
+    .catch(err => {
         console.error(err);
     });
 
@@ -159,7 +159,7 @@ function exitHandler(err) {
     if (err && err.stack) console.error("\n", chalk.red(err.stack), "\n");
     phpServer.proc.kill();
     contaoProdServer.proc.kill();
-    contaoServers.forEach((server) => {
+    contaoServers.forEach(server => {
         server.proc.kill();
     });
     if (createdDotEnv && fs.readFileSync(".env").toString() === devDotEnv) {
