@@ -7,11 +7,11 @@
     "license": "ISC",
     "private": false,
     "dependencies": {
-        "chalk": "^4.0.0",
+        "chalk": "^4.1.0",
         "file-exists": "^5.0.1",
-        "http-proxy": "^1.18.0",
-        "http-server": "^0.12.1",
-        "yargs": "^15.3.1"
+        "http-proxy": "^1.18.1",
+        "http-server": "^0.12.3",
+        "yargs": "^16.1.0"
     },
     "repository": {
         "type": "git",
