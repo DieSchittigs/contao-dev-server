@@ -29,7 +29,7 @@ class RouterContao {
             !pathname.endsWith(".php") &&
             isFile(path.join(this.rootDir, pathname))
         ) {
-            console.log(chalk.gray(req.method, req.url));
+            console.log(chalk.white(req.method, req.url));
             return res.emit("next");
         }
 
@@ -37,14 +37,14 @@ class RouterContao {
         let hasIndexPhp = false;
         if (!isFile(path.join(this.rootDir, pathname))) {
             if (isFile(path.join(this.rootDir, pathname + "index.html"))) {
-                console.log(chalk.gray(req.method, req.url));
+                console.log(chalk.white(req.method, req.url));
                 return res.emit("next");
             }
             if (isFile(path.join(this.rootDir, pathname, "index.php")))
                 hasIndexPhp = true;
         }
 
-        console.log(chalk.blue(req.method, req.url));
+        console.log(chalk.white(req.method, req.url));
 
         // This is a PHP-script - no routing needed
         if (

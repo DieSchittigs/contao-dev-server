@@ -115,7 +115,7 @@ startHttpServer(argv.host, argv.port, rootDir, (req, res) =>
             "\n\n",
             chalk.bgMagenta(" Contao Dev Server launched successfully", "\n")
         );
-        if (!fs.existsSync(path.join(rootDir, "../app/config/parameters.yml")))
+        if (!fs.existsSync(path.join(rootDir, "../config/parameters.yml")))
             console.log(
                 chalk.white(
                     " * Install:\thttp://" +
@@ -148,7 +148,6 @@ startHttpServer(argv.host, argv.port, rootDir, (req, res) =>
 function exitHandler(err) {
     if (err && err.stack) console.error("\n", chalk.red(err.stack), "\n");
     phpServer.proc.kill();
-    contaoProdServer.proc.kill();
     contaoServers.forEach(server => {
         server.proc.kill();
     });

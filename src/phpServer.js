@@ -27,19 +27,27 @@ function startPhpServer(
 
     const serverProc = spawn(phpExec, args);
 
+    serverProc.stdout.on("data", function(data) {
+        const line = data.toString().trim();
+        if (!line) return;
+        console.log(chalk.blueBright("PHP", line));
+    });
+
     serverProc.stderr.on("data", function(data) {
-        console.log(chalk.yellow("PHP", data.toString()));
+        const line = data.toString().trim();
+        if (!line) return;
+        console.log(chalk.blueBright("PHP", line));
     });
 
     serverProc.on("exit", function(code) {
         console.log(
-            chalk.yellow(
+            chalk[code == 0 ? "green" : "yellow"](
                 "PHP",
                 "child process exited with code " + code.toString()
             )
         );
     });
-    console.log(chalk.blue("PHP instance spawned at", host + ":" + port));
+    console.log(chalk.green("PHP instance spawned at", host + ":" + port));
     return { proc: serverProc, url: "http://" + host + ":" + port };
 }
 
